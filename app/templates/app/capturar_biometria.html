@@ -1,0 +1,20 @@
+{% extends 'app/base.html' %}
+
+{% block title %}Capturar Biometría{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h2>Paso 2: "Capturar" Datos Biométricos para {{ persona.nombre }} {{ persona.apellido }}</h2>
+    </div>
+    <div class="card-body">
+        <p>Como no hay un dispositivo físico, por favor, sube un archivo de imagen para simular la captura.</p>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-success">Guardar Dato Biométrico</button>
+            <a href="{% url 'app:detalle_persona' persona.id %}" class="btn btn-secondary">Finalizar Enrolamiento</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

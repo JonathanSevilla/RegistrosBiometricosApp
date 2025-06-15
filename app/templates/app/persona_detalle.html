@@ -1,0 +1,45 @@
+{% extends 'app/base.html' %}
+
+{% block title %}Detalles{% endblock %}
+{% block content %}
+<hr>
+
+<h4>Información de la Persona:</h4>
+<div class="card mb-4">
+    <div class="card-body">
+        <p><strong>Nombre completo:</strong> {{ persona.nombre }} {{ persona.apellido }}</p>
+        <p><strong>Identificador único:</strong> {{ persona.identificador_unico }}</p>
+        <!-- Puedes agregar más campos si los tienes, como correo, fecha de nacimiento, etc. -->
+    </div>
+</div>
+
+<h5>Historial de Accesos:</h5>
+{% if registros %}
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Fecha de Ingreso</th>
+            <th>Hora de Ingreso</th>
+            <th>Fecha de Salida</th>
+            <th>Hora de Salida</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for registro in registros %}
+        <tr>
+            <td>{{ registro.fecha_hora_ingreso|date:"d/m/Y" }}</td>
+            <td>{{ registro.fecha_hora_ingreso|time:"H:i" }}</td>
+            {% if registro.fecha_hora_salida %}
+                <td>{{ registro.fecha_hora_salida|date:"d/m/Y" }}</td>
+                <td>{{ registro.fecha_hora_salida|time:"H:i" }}</td>
+            {% else %}
+                <td colspan="2"><em>Actualmente dentro</em></td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<div class="alert alert-info">No hay registros de acceso para esta persona.</div>
+{% endif %}
+{% endblock %}

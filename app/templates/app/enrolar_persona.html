@@ -1,0 +1,18 @@
+{% extends 'app/base.html' %}
+
+{% block title %}Enrolar Nueva Persona{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h2>Paso 1: Registrar Persona</h2>
+    </div>
+    <div class="card-body">
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Siguiente: Añadir Datos Biométricos</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

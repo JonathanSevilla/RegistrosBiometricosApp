@@ -1,0 +1,56 @@
+{% extends 'app/base.html' %}
+
+{% block title %}Terminal de Seguimiento{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h2>Simulador de Terminal Biométrica</h2>
+    </div>
+    <div class="card-body">
+        <h5 class="card-title">Selecciona una persona para simular el escaneo:</h5>
+        <div class="list-group">
+            {% for persona in personas %}
+            <div class="list-group-item d-flex justify-content-between align-items-center">
+                {{ persona.nombre }} {{ persona.apellido }}
+                <span>
+                    <a href="{% url 'app:registrar_ingreso' persona.id %}" class="btn btn-success btn-sm">Marcar Ingreso</a>
+                    <a href="{% url 'app:registrar_salida' persona.id %}" class="btn btn-warning btn-sm">Marcar Salida</a>
+                </span>
+            </div>
+            {% empty %}
+            <p class="list-group-item">No hay personas enroladas todavía.</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+
+
+<div class="card mt-4">
+    <div class="card-header">
+        <h3>Historial de Accesos</h3>
+    </div>
+    <div class="card-body">
+        <ul class="list-group">
+            {% for registro in historial %}
+            <li class="list-group-item">
+                <strong>{{ registro.persona.nombre }} {{ registro.persona.apellido }}</strong><br>
+                Ingreso: {{ registro.fecha_hora_ingreso|time:"H:i" }} del {{ registro.fecha_hora_ingreso|date:"d/m/Y" }}
+                {% if registro.fecha_hora_salida %}
+                <br>
+                Salida: {{ registro.fecha_hora_salida|time:"H:i" }} del {{ registro.fecha_hora_salida|date:"d/m/Y" }}
+                {% else %}
+                <br>
+                <em>Actualmente dentro</em>
+                {% endif %}
+            </li>
+            {% empty %}
+            <li class="list-group-item">No hay registros de acceso todavía.</li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+
+{% endblock %}

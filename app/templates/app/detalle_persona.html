@@ -1,0 +1,32 @@
+{% extends 'app/base.html' %}
+
+{% block title %}Detalle de {{ persona.nombre }}{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h2>Enrolamiento Exitoso</h2>
+    </div>
+    <div class="card-body">
+        <h5 class="card-title">{{ persona.nombre }} {{ persona.apellido }}</h5>
+        <p class="card-text"><strong>Identificador Único:</strong> {{ persona.identificador_unico }}</p>
+        
+        <h6>Datos Biométricos Registrados:</h6>
+        <ul>
+            {% for dato in persona.datos_biometricos.all %}
+            <li>
+                Tipo: {{ dato.get_tipo_biometrico_display }}
+                {% if dato.ruta_simulada %}
+                    - <a href="{{ dato.ruta_simulada.url }}">Ver imagen simulada</a>
+                {% endif %}
+            </li>
+            {% empty %}
+            <li>No se han añadido datos biométricos.</li>
+            {% endfor %}
+        </ul>
+        
+        <a href="{% url 'app:capturar_biometria' persona.id %}" class="btn btn-info mt-3">Añadir otro dato biométrico</a>
+        <a href="{% url 'app:pagina_seguimiento' %}" class="btn btn-secondary mt-3">Ir a la Terminal</a>
+    </div>
+</div>
+{% endblock %}
